@@ -1,12 +1,13 @@
 $schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
 inputs:
   entity_type:
     type: string
     default: job title
   text:
     type: string
-    default: Maxime is a data scientist at Auto Dataset, and his wife is a finance
-      manager in the same company.
+    default: Maxime is a data scientist at Auto Dataset, and his wife is a finance manager in the same company.
 outputs:
   entities:
     type: string
@@ -18,7 +19,7 @@ nodes:
     type: code
     path: NER_LLM.jinja2
   inputs:
-    deployment_name: gpt-35-turbo
+    deployment_name: gpt-35-turbo-autoupdate
     max_tokens: 64
     text: ${inputs.text}
     entity_type: ${inputs.entity_type}
@@ -33,5 +34,3 @@ nodes:
     path: cleansing.py
   inputs:
     entities_str: ${NER_LLM.output}
-environment:
-  python_requirements_txt: requirements.txt
